@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Palette Generator</title>
+    <style>
+        /* CSS styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+            width: 80%;
+            max-width: 600px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .palette {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            gap: 10px;
+        }
+
+        .color-block {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        button {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Color Palette Generator</h1>
+        <div id="palette" class="palette">
+            <!-- Color blocks will be inserted here dynamically -->
+        </div>
+        <button id="generate-btn">Generate New Palette</button>
+    </div>
+
+    <script>
+        // JavaScript functionality
+
+        // Function to generate a random hex color
+        function generateRandomColor() {
+            const letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        // Function to generate and display the color palette
+        function generatePalette() {
+            const paletteContainer = document.getElementById('palette');
+            paletteContainer.innerHTML = '';  // Clear existing colors
+            const numberOfColors = 5;  // Generate 5 colors
+
+            for (let i = 0; i < numberOfColors; i++) {
+                const colorBlock = document.createElement('div');
+                colorBlock.classList.add('color-block');
+                const color = generateRandomColor();
+                colorBlock.style.backgroundColor = color;
+                colorBlock.setAttribute('data-color', color);
+
+                // Add event listener to copy the color hex to clipboard
+                colorBlock.addEventListener('click', () => {
+                    navigator.clipboard.writeText(color).then(() => {
+                        alert(`Color ${color} copied to clipboard!`);
+                    });
+                });
+
+                paletteContainer.appendChild(colorBlock);
+            }
+        }
+
+        // Generate initial palette
+        generatePalette();
+
+        // Add event listener to generate button
+        document.getElementById('generate-btn').addEventListener('click', generatePalette);
+    </script>
+</body>
+</html>
